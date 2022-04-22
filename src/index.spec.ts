@@ -101,7 +101,7 @@ describe("Cell status", () => {
     const grid: Cell[] = [{ x: 7, y: 2 }];
 
     // when
-    const result = isAlive(new Set(grid.map(stringifyCell)), "7;1");
+    const result = isAlive(new Set(grid.map(stringifyCell)))("7;1");
 
     // then
     expect(result).toBe(false);
@@ -112,7 +112,7 @@ describe("Cell status", () => {
     const grid: Cell[] = [{ x: 7, y: 2 }];
 
     // when
-    const result = isAlive(new Set(grid.map(stringifyCell)), "7;2");
+    const result = isAlive(new Set(grid.map(stringifyCell)))("7;2");
 
     // then
     expect(result).toBe(true);

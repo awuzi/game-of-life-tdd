@@ -1,24 +1,26 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import "./App.css";
+import { Cell } from "../typings";
 
-export const Canvas = ({ previousConfiguration, configuration }) => {
+type Props = {
+  currentGen: Cell[],
+  oldGen: Cell[]
+}
+
+export const Canvas = ({ currentGen, oldGen }: Props) => {
   const canvasRef = useRef("canvas");
+  const SIDE_LENGTH = 10;
 
   useEffect(() => {
-    const canvas = canvasRef.current as HTMLCanvasElement;
-    const context = canvas.getContext("2d") as CanvasRenderingContext2D;
-    const SIDE_LENGTH = 10;
+    const canvas = canvasRef.current as unknown as HTMLCanvasElement;
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, 200, 200);
+    ctx.fillStyle = "#FF0000";
+    currentGen.forEach(drawCell(ctx));
+  }, [currentGen, oldGen]);
 
-    context.fillStyle = "#FFFFFF";
-    previousConfiguration.forEach((cell) =>
-      context.fillRect(cell.x * SIDE_LENGTH, cell.y * SIDE_LENGTH, SIDE_LENGTH, SIDE_LENGTH)
-    );
 
-    context.fillStyle = "#FF0000";
-    configuration.forEach((cell) =>
-      context.fillRect(cell.x * SIDE_LENGTH, cell.y * SIDE_LENGTH, SIDE_LENGTH, SIDE_LENGTH)
-    );
-  }, [configuration, previousConfiguration]);
+  const drawCell = (ctx: CanvasRenderingContext2D): ({ x, y }: Cell) => void => ({ x, y }: Cell) => ctx.fillRect(x * SIDE_LENGTH, y * SIDE_LENGTH, SIDE_LENGTH, SIDE_LENGTH);
 
   return <canvas ref={canvasRef} className="canvas" height="200" width="200"></canvas>;
 };

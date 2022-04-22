@@ -4,34 +4,29 @@ import { Canvas } from "./Canvas";
 import { computeNextGeneration } from "./";
 
 const App = () => {
-  const [currentConfiguration, setCurrentConfiguration] = useState([
-    { x: 5, y: 3 },
-    { x: 4, y: 3 },
-    { x: 4, y: 5 },
-    { x: 1, y: 0 },
-    { x: 0, y: 0 },
-    { x: -1, y: 0 },
-    { x: 4, y: 4 },
-    { x: 6, y: 3 },
-    { x: 6, y: 5 },
-    { x: 6, y: 4 },
-    { x: 5, y: 5 },
-    { x: 2, y: 3 },
-    { x: 4, y: 3 },
+  const [currentGeneration, setCurrentGeneration] = useState([
+    { x: 5, y: 3 },{ x: 6, y: 3 },
+    { x: 4, y: 3 },{ x: 6, y: 5 },
+    { x: 4, y: 5 },{ x: 6, y: 4 },
+    { x: 1, y: 0 },{ x: 5, y: 5 },
+    { x: 4, y: 4 },{ x: 2, y: 3 },
+    { x: 4, y: 3 },{ x: 4, y: -3 },
+    { x: 5, y: 3 },{ x: 6, y: -3 },
   ]);
-  const [previousConfiguration, setPreviousConfiguration] = useState([]);
+  const [previousGeneration, setPreviousGeneration] = useState([]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setPreviousConfiguration(currentConfiguration);
-      setCurrentConfiguration(computeNextGeneration(currentConfiguration));
-    }, 500);
-    return () => clearInterval(interval);
+    const game = setInterval(() => {
+      setPreviousGeneration(currentGeneration);
+      setCurrentGeneration(computeNextGeneration(currentGeneration));
+    }, 300);
+
+    return () => clearInterval(game);
   });
 
   return (
     <div className="App">
-      <Canvas configuration={currentConfiguration} previousConfiguration={previousConfiguration} />
+      <Canvas currentGen={currentGeneration} oldGen={previousGeneration} />
     </div>
   );
 };
