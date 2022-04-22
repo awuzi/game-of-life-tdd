@@ -20,17 +20,17 @@ export function getNeighborPositions({ x, y }): Cell[] {
 }
 
 export function getAliveNeighbors(grid: GridSet, cell: Cell): `${number};${number}`[] {
-  return getNeighborPositions(cell)
-    .map(stringifyCell)
-    .filter((stringifiedCell) => isAlive(grid, stringifiedCell));
+  return getNeighborPositions(cell).map(stringifyCell).filter(isAlive(grid));
 }
 
 export function stringifyCell({ x, y }: Cell): StringifiedCell<Cell> {
   return `${x};${y}`;
 }
 
-export function isAlive<P extends Cell>(grid: GridSet, stringifiedCell: StringifiedCell<P>): boolean {
-  return grid.has(stringifiedCell);
+export function isAlive<P extends Cell>(grid: GridSet): (stringifiedCell: StringifiedCell<P>) => boolean {
+  return (stringifiedCell: StringifiedCell<P>): boolean => {
+    return grid.has(stringifiedCell);
+  };
 }
 
 export function parseStringifiedCell<P extends Cell>(cell: StringifiedCell<P>): Cell {
@@ -46,14 +46,14 @@ export function addOrRemoveCellByStatus(grid: GridSet, currentPosition: Cell, is
 export function computeNextGeneration(grid: Cell[]): Cell[] {
   const gridSet: GridSet = new Set(grid.map(stringifyCell));
 
-  const newCells = [...gridSet]
-    .map((c) => getNeighborPositions(parseStringifiedCell(c)))
+  const newCells = grid
+    .map(getNeighborPositions)
     .flat()
     .filter((c) => addOrRemoveCellByStatus(gridSet, c, false))
     .map(stringifyCell);
 
   const stillAlive = [...gridSet]
-    .filter((f) => isAlive(gridSet, f))
+    .filter(isAlive(gridSet))
     .map(parseStringifiedCell)
     .filter((c) => addOrRemoveCellByStatus(gridSet, c, true))
     .map(stringifyCell);

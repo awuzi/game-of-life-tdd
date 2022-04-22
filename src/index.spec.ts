@@ -8,7 +8,7 @@ import {
   isAlive,
   addOrRemoveCellByStatus,
   parseStringifiedCell,
-  computeNextGeneration
+  computeNextGeneration,
 } from ".";
 
 import type { Cell } from "../typings";
@@ -75,7 +75,6 @@ describe("Next generation status by nbOfNeighbors", () => {
 
 describe("Neighbors coordinate", () => {
   it("calculate neighbors coordinate", () => {
-
     // given
     const cell: Cell = { x: 5, y: 4 };
 
@@ -91,7 +90,7 @@ describe("Neighbors coordinate", () => {
       { x: 6, y: 3 },
       { x: 6, y: 5 },
       { x: 6, y: 4 },
-      { x: 5, y: 5 }
+      { x: 5, y: 5 },
     ]);
   });
 });
@@ -145,7 +144,7 @@ describe("Alive neighbors", () => {
 });
 
 describe("Format to string set", () => {
-  it("should format to \"2;3\" for {x:3, y:3}", () => {
+  it('should format to "2;3" for {x:3, y:3}', () => {
     // given
     const cell: Cell = { x: 2, y: 3 };
 
@@ -158,7 +157,7 @@ describe("Format to string set", () => {
 });
 
 describe("Parse string set", () => {
-  it("should parse \'2;3\' to { x:3, y:3 }", () => {
+  it("should parse '2;3' to { x:3, y:3 }", () => {
     // given
     const stringCell = "2;3";
 
@@ -177,7 +176,7 @@ describe("Create or remove cell", () => {
     const grid = [
       { x: 3, y: 2 },
       { x: 2, y: 3 },
-      { x: 4, y: 3 }
+      { x: 4, y: 3 },
     ];
     const gridSet = new Set(grid.map(stringifyCell));
 
@@ -193,7 +192,7 @@ describe("Create or remove cell", () => {
     const position = { x: 3, y: 3 };
     const grid = [
       { x: 2, y: 3 },
-      { x: 4, y: 3 }
+      { x: 4, y: 3 },
     ];
     const gridSet = new Set(grid.map(stringifyCell));
 
@@ -209,7 +208,7 @@ describe("Create or remove cell", () => {
     const position = { x: 3, y: 3 };
     const grid = [
       { x: 2, y: 3 },
-      { x: 4, y: 3 }
+      { x: 4, y: 3 },
     ];
     const gridSet = new Set(grid.map(stringifyCell));
 
@@ -227,7 +226,7 @@ describe("Create or remove cell", () => {
       { x: 2, y: 3 },
       { x: 3, y: 2 },
       { x: 4, y: 2 },
-      { x: 4, y: 3 }
+      { x: 4, y: 3 },
     ];
     const gridSet = new Set(grid.map(stringifyCell));
 
@@ -239,13 +238,13 @@ describe("Create or remove cell", () => {
   });
 });
 
-describe("Compute generation", function() {
+describe("Compute generation", function () {
   it("Any live cell with two or three live neighbours lives on to the next generation", () => {
     // given
     const grid = [
       { x: 1, y: 0 },
       { x: 0, y: 0 },
-      { x: -1, y: 0 }
+      { x: -1, y: 0 },
     ];
 
     // when
@@ -255,7 +254,7 @@ describe("Compute generation", function() {
     expect(result).toContainAllValues([
       { x: 0, y: 0 },
       { x: 0, y: 1 },
-      { x: 0, y: -1 }
+      { x: 0, y: -1 },
     ]);
   });
 
@@ -263,7 +262,7 @@ describe("Compute generation", function() {
     // given
     const grid = [
       { x: 1, y: 0 },
-      { x: 3, y: 1 }
+      { x: 3, y: 1 },
     ];
 
     // when
@@ -280,7 +279,7 @@ describe("Compute generation", function() {
       { x: 1, y: 0 },
       { x: 2, y: 0 },
       { x: 0, y: 1 },
-      { x: 1, y: 1 }
+      { x: 1, y: 1 },
     ];
 
     // when
@@ -292,28 +291,24 @@ describe("Compute generation", function() {
       { x: 0, y: 0 },
       { x: 1, y: -1 },
       { x: 2, y: 0 },
-      { x: 2, y: 1 }
+      { x: 2, y: 1 },
     ]);
   });
 
   it("Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction", () => {
-
     // given
     const grid = [
       { x: 0, y: -1 },
       { x: 1, y: 1 },
-      { x: -1, y: 1 }
+      { x: -1, y: 1 },
     ];
 
     // when
     const result = computeNextGeneration(grid);
 
     // then
-    expect(result).toContainAllValues([
-      { x: 0, y: 0 }
-    ]);
+    expect(result).toContainAllValues([{ x: 0, y: 0 }]);
   });
-
 });
 
 describe("Miscellaneous cases", () => {
@@ -323,7 +318,7 @@ describe("Miscellaneous cases", () => {
       { x: 0, y: 0 },
       { x: 1, y: 0 },
       { x: 1, y: 1 },
-      { x: 0, y: 1 }
+      { x: 0, y: 1 },
     ];
 
     // when
@@ -334,7 +329,7 @@ describe("Miscellaneous cases", () => {
       { x: 0, y: 0 },
       { x: 1, y: 0 },
       { x: 1, y: 1 },
-      { x: 0, y: 1 }
+      { x: 0, y: 1 },
     ]);
   });
 
@@ -343,7 +338,7 @@ describe("Miscellaneous cases", () => {
     const grid = [
       { x: -1, y: 0 },
       { x: 0, y: 0 },
-      { x: 1, y: 0 }
+      { x: 1, y: 0 },
     ];
 
     // when
@@ -353,8 +348,7 @@ describe("Miscellaneous cases", () => {
     expect(result).toContainAllValues([
       { x: -1, y: 0 },
       { x: 0, y: 0 },
-      { x: 1, y: 0 }
+      { x: 1, y: 0 },
     ]);
-
   });
 });
